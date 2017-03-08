@@ -5,6 +5,7 @@ THEANO_FLAGS=mode=FAST_RUN,floatX=float32,optimizer_including=cudnn,device=gpu0 
   --datasets data/corpus/train.l8-fce-giga.src data/corpus/train.l8-fce-giga.trg \
   --dictionaries data/corpus/train.l8-fce-giga.src.json data/corpus/train.l8-fce-giga.trg.json \
   --model models/mle-l8-fce-giga.npz \
+  --reload \
   --use_dropout \
   --maxlen 50 \
   --optimizer adam \
