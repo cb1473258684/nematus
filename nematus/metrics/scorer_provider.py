@@ -4,6 +4,7 @@
 import scorer_interpolator as si
 
 from sentence_bleu import SentenceBleuScorer
+from sentence_gleu import SentenceGleuScorer
 from meteor import MeteorScorer
 from beer import BeerScorer
 from chrf import CharacterFScorer
@@ -41,8 +42,10 @@ class ScorerProvider:
         except ValueError:
             scorer = config_string
             arguments = ''
-        if scorer == 'SENTENCEBLEU':
+        if scorer == 'SENTENCE_BLEU':
             return SentenceBleuScorer(arguments)
+        elif scorer == 'SENTENCE_GLEU':
+            return SentenceGleuScorer(arguments)
         elif scorer == 'METEOR':
             return MeteorScorer(arguments)
         elif scorer == 'BEER':
