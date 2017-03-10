@@ -1645,7 +1645,7 @@ if __name__ == '__main__':
                          help="samples per source sentence (default: %(default)s)")
     mrt.add_argument('--mrt_samples_meanloss', type=int, default=10, metavar='INT',
                          help="draw n independent samples to calculate mean loss (which is subtracted from loss) (default: %(default)s)")
-    mrt.add_argument('--mrt_loss', type=str, default='sGLEU n=4', metavar='STR',
+    mrt.add_argument('--mrt_loss', type=str, default='sentenceGLEU n=4', metavar='STR',
                          help='loss used in MRT (default: %(default)s)')
     mrt.add_argument('--mrt_reference', action="store_true",
                          help='add reference to MRT samples.')
