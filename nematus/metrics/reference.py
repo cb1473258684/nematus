@@ -12,12 +12,13 @@ class Reference:
 
     __metaclass__ = ABCMeta #abstract base class
 
-    def __init__(self, reference_tokens):
+    def __init__(self, source_tokens, reference_tokens):
         """
         @param reference the reference translation that hypotheses shall be
                          scored against.
         """
         self._reference_tokens = reference_tokens
+        self._source_tokens    = source_tokens_tokens
         #additional (metric-specific) parameters to be defined in subclass
 
     @abstractmethod

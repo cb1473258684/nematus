@@ -1271,14 +1271,17 @@ def train(dim_word=512,  # word vector dimensionality
                         # map integers to words (for character-level metrics)
                         samples = [seqs2words(sample, worddicts_r[-1]) for sample in samples]
                         ref = seqs2words(y_s, worddicts_r[-1])
+                        src = seqs2words(x_s, worddicts_r[-1])
 
                         #scorers expect tokenized hypotheses/references
                         ref = ref.split(" ")
+                        src = src.split(" ")
                         samples = [sample.split(" ") for sample in samples]
 
                         # get negative smoothed BLEU for samples
+                        # (for computing GLEU, we need source as well) 
                         scorer = ScorerProvider().get(model_options['mrt_loss'])
-                        scorer.set_reference(ref)
+                        scorer.set_reference(src, ref)
                         mean_loss = numpy.array(scorer.score_matrix(samples), dtype='float32').mean()
                     else:
                         mean_loss = 0.
@@ -1310,14 +1313,17 @@ def train(dim_word=512,  # word vector dimensionality
                     # map integers to words (for character-level metrics)
                     samples = [seqs2words(sample, worddicts_r[-1]) for sample in samples]
                     y_s = seqs2words(y_s, worddicts_r[-1])
+                    x_s = seqs2words(x_s, worddicts_r[-1])
 
                     #scorers expect tokenized hypotheses/references
                     y_s = y_s.split(" ")
+                    x_s = x_s.split(" ")
                     samples = [sample.split(" ") for sample in samples]
 
                     # get negative smoothed BLEU for samples
+                    # (for computing GLEU, we need source as well) 
                     scorer = ScorerProvider().get(model_options['mrt_loss'])
-                    scorer.set_reference(y_s)
+                    scorer.set_reference(x_s, y_s)
                     loss = mean_loss - numpy.array(scorer.score_matrix(samples), dtype='float32')
 
                     # compute cost, grads and copy grads to shared variables
@@ -1639,7 +1645,7 @@ if __name__ == '__main__':
                          help="samples per source sentence (default: %(default)s)")
     mrt.add_argument('--mrt_samples_meanloss', type=int, default=10, metavar='INT',
                          help="draw n independent samples to calculate mean loss (which is subtracted from loss) (default: %(default)s)")
-    mrt.add_argument('--mrt_loss', type=str, default='SENTENCEBLEU n=4', metavar='STR',
+    mrt.add_argument('--mrt_loss', type=str, default='sGLEU n=4', metavar='STR',
                          help='loss used in MRT (default: %(default)s)')
     mrt.add_argument('--mrt_reference', action="store_true",
                          help='add reference to MRT samples.')
