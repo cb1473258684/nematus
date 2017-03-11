@@ -1271,7 +1271,8 @@ def train(dim_word=512,  # word vector dimensionality
                         # map integers to words (for character-level metrics)
                         samples = [seqs2words(sample, worddicts_r[-1]) for sample in samples]
                         ref = seqs2words(y_s, worddicts_r[-1])
-                        src = seqs2words(x_s, worddicts_r[-1])
+                        x_s_flat = [_x[0] for _x in x_s]
+                        src = seqs2words(x_s_flat, worddicts_r[-1])
 
                         #scorers expect tokenized hypotheses/references
                         ref = ref.split(" ")
@@ -1313,7 +1314,8 @@ def train(dim_word=512,  # word vector dimensionality
                     # map integers to words (for character-level metrics)
                     samples = [seqs2words(sample, worddicts_r[-1]) for sample in samples]
                     y_s = seqs2words(y_s, worddicts_r[-1])
-                    x_s = seqs2words(x_s, worddicts_r[-1])
+                    x_s_flat = [_x[0] for _x in x_s]
+                    x_s = seqs2words(x_s_flat, worddicts_r[-1])
 
                     #scorers expect tokenized hypotheses/references
                     y_s = y_s.split(" ")

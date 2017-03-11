@@ -18,7 +18,7 @@ class Reference:
                          scored against.
         """
         self._reference_tokens = reference_tokens
-        self._source_tokens    = source_tokens_tokens
+        self._source_tokens    = source_tokens
         #source information is used for computing GLEU
         #additional (metric-specific) parameters to be defined in subclass
 
