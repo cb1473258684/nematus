@@ -1282,7 +1282,11 @@ def train(dim_word=512,  # word vector dimensionality
                         # get negative smoothed BLEU for samples
                         # (for computing GLEU, we need source as well) 
                         scorer = ScorerProvider().get(model_options['mrt_loss'])
-                        scorer.set_reference(src, ref)
+                        if 'BLEU' in model_options['mrt_loss']:
+                            scorer.set_reference(ref)
+                        elif 'GLEU' in model_options['mrt_loss']:
+                            scorer.set_reference(src, ref)
+                        #scorer.set_reference(src, ref)
                         mean_loss = numpy.array(scorer.score_matrix(samples), dtype='float32').mean()
                     else:
                         mean_loss = 0.
@@ -1325,7 +1329,12 @@ def train(dim_word=512,  # word vector dimensionality
                     # get negative smoothed BLEU for samples
                     # (for computing GLEU, we need source as well) 
                     scorer = ScorerProvider().get(model_options['mrt_loss'])
-                    scorer.set_reference(x_s, y_s)
+                    if 'BLEU' in model_options['mrt_loss']:
+                        scorer.set_reference(y_s)
+                    elif 'GLEU' in model_options['mrt_loss']:
+                        scorer.set_reference(x_s, y_s)
+                    #scorer.set_reference(y_s)
+
                     loss = mean_loss - numpy.array(scorer.score_matrix(samples), dtype='float32')
 
                     # compute cost, grads and copy grads to shared variables
